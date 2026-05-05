@@ -1,29 +1,24 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 async function getProducts() {
-  const res = await fetch(`${API_URL}/api/products?populate=*`, {
-    cache: "no-store",
-  });
-  const data = await res.json();
-  return data.data;
-}
+  try {
+    const res = await fetch(`${API_URL}/api/products?populate=*`, {
+      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-export default async function Home() {
-  const products = await getProducts();
+    if (!res.ok) {
+      const text = await res.text();
+      console.error("API ERROR:", text);
+      return [];
+    }
 
-  return (
-    <main style={{ padding: "40px" }}>
-      <h1 style={{ fontSize: "28px", marginBottom: "20px" }}>
-        Kembar Medika Safety
-      </h1>
-
-      <div style={{ display: "grid", gap: "20px" }}>
-        {products?.map((item: any) => (
-          <div key={item.id} style={{ border: "1px solid #ccc", padding: "10px" }}>
-            <h2>{item.attributes.name}</h2>
-          </div>
-        ))}
-      </div>
-    </main>
-  );
+    const data = await res.json();
+    return data.data ?? [];
+  } catch (err) {
+    console.error("FETCH ERROR:", err);
+    return [];
+  }
 }
