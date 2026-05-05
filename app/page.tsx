@@ -10,8 +10,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(`${API_URL}/api/products?populate=*`);
-        const data = await res.json();
+        const res = await fetch(`/api/products?populate=*`);
         setProducts(data.data || []);
       } catch (err) {
         console.error("FETCH ERROR:", err);
