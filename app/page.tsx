@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <main style={{ padding: "40px" }}>
       <h1 style={{ fontSize: "28px", marginBottom: "20px" }}>
-        Kembar Medika Safety
+        Kembar Medika Safety aaa
       </h1>
 
       {products.length === 0 ? (
